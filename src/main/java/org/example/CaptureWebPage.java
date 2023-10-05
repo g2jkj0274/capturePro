@@ -28,13 +28,23 @@ public class CaptureWebPage {
             // 새 탭 생성
             ((JavascriptExecutor) driver).executeScript("window.open()");
             ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
-            driver.switchTo().window(tabs.get(1));  // 새 탭으로 전환
+            driver.switchTo().window(tabs.get(tabs.size() - 1));  // 새 탭으로 전환
 
             // 선택 사항 - HTML or URL
             // 데이터 문자열로 HTML 페이지를 생성
-            // String dataURL = "data:text/html;charset=utf-8," + "<h1>HI!</h1>";
+            String htmlContent = "<style>"
+                    + "@font-face {"
+                    + "font-family:'DNFBitBitv2';"
+                    + "font-style:normal;font-weight:400;"
+                    + "src:url('https://cdn.df.nexon.com/img/common/font/DNFBitBitv2.otf')format('opentype');"
+                    + "}"
+                    + "body { font-family: 'DNFBitBitv2'; }"
+                    + "</style>"
+                    + "<h1>HI!</h1>";
+
+            String dataURL = "data:text/html;charset=utf-8," + htmlContent;
             // url로 페이지 로드
-            String dataURL = "https://www.naver.com";
+            // String dataURL = "https://www.naver.com";
 
             // 생성된 페이지로 이동
             driver.get(dataURL);
@@ -45,7 +55,7 @@ public class CaptureWebPage {
             // 지정된 영역을 스크린샷으로 캡쳐
             BufferedImage fullImg = ImageIO.read(screenshot);
             // 해당 좌표, 범위를 지정하여 원하는 부분을 캡쳐
-            BufferedImage eleScreenshot= fullImg.getSubimage(0, 0, 100, 100);
+            BufferedImage eleScreenshot= fullImg.getSubimage(0, 0, 500, 100);
             ImageIO.write(eleScreenshot, "png", screenshot);
 
             screenshot.renameTo(new File(getNextFileName()));
